@@ -1,7 +1,9 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner scan = new Scanner(System.in);
         printOpening();
         scan.nextLine();
@@ -9,20 +11,29 @@ public class Main {
         clearScreenHack();
         printMainMenu();
 
-        scan.close();
+        boolean loopAgain = true;
+        while(loopAgain) {
+            String response = scan.nextLine();
 
+
+            if (response.toLowerCase().equals("p")) {
+                humanGame(scan);
+            } else if(response.toLowerCase().equals("x")) {
+                loopAgain = false;
+
+            } else {
+                System.out.println("I do not understand. Please enter a P, C, G, or X");
+            }
+        }
+
+        System.out.println("GOODBYE");
+        scan.close();
     }
 
     public static void clearScreenHack(){
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
-        System.out.println( " " );
+        for(int i = 0; i < 20; i++) {
+            System.out.println(" ");
+        }
     }
 
     public static void clearScreen(){
@@ -65,6 +76,35 @@ public class Main {
         System.out.println("[G]ame history");
         System.out.println("e[X]it");
         System.out.println("Enter [P, C, G, or X], then press ENTER");
+    }
+
+    public static void humanGame(Scanner scan){
+        boolean playOn = true;
+
+        clearScreenHack();
+        System.out.println("Player 1, What is your name?");
+        String name1 = scan.nextLine();
+
+        System.out.println("Player 2, What is your name?");
+        String name2 = scan.nextLine();
+
+        Player player1 = new Player(0, name1, false);
+        Player player2 = new Player(1, name2, false);
+
+        Game game = new Game(player1, player2);
+
+        while(playOn) {
+            clearScreenHack();
+            Game.promptPlayer(player1);
+            Game.promptPlayer(player2);
+            int result = Game.findWinner(player1, player2);
+            System.out.println(result);
+
+            game.incrementGameCounter();
+            playOn =false;
+
+        }
+
     }
 
 
