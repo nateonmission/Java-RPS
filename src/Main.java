@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.Array;
 import java.util.Scanner;
 
@@ -25,10 +26,17 @@ public class Main {
                 } else if (response.equalsIgnoreCase("c")) {
                     gameResults = Game.playGame(scan, response);
                     loopAgain = false;
-                } else if (response.equalsIgnoreCase("h")){
-
-
-                    
+                } else if (response.equalsIgnoreCase("g")){
+                    try{
+                        ProcessBuilder pb = new ProcessBuilder("Notepad.exe", "gameHistory.txt");
+                        pb.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("");
+                    System.out.println("");
+                    System.out.println("");
+                    loopAgain = false;
                 } else if (response.equalsIgnoreCase("x")) {
                     loopAgain = false;
                     playOn = false;

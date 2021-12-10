@@ -1,10 +1,6 @@
-2021/12/10 15:09:22, Tie, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: rock
-2021/12/10 15:09:24, Winner: Player2, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: paper
-2021/12/10 15:09:25, Tie, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: rock
-2021/12/10 15:09:27, Tie, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: rock
-2021/12/10 15:09:28, Tie, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: rock
-2021/12/10 15:09:30, Winner: Player1, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: scissors
-2021/12/10 15:09:31, Winner: Player1, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: scissors
-2021/12/10 15:09:32, Winner: Player1, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: scissors
-2021/12/10 15:09:34, Winner: Player2, Player1: Nate, Player1 Weapon: rock, Player2: Computer, Player2 Weapon: paper
-Out of 9 games, Player 1 has 3 wins & Player 2 has 2 wins and 4 ties 
+2021/12/10 15:22:08, Winner: Player2, Player1: Nate, Player1 Weapon: rock, Player2: Karey, Player2 Weapon: paper
+2021/12/10 15:22:22, Winner: Player2, Player1: Nate, Player1 Weapon: paper, Player2: Karey, Player2 Weapon: scissors
+2021/12/10 15:22:28, Winner: Player1, Player1: Nate, Player1 Weapon: rock, Player2: Karey, Player2 Weapon: scissors
+2021/12/10 15:22:36, Winner: Player1, Player1: Nate, Player1 Weapon: paper, Player2: Karey, Player2 Weapon: rock
+2021/12/10 15:22:40, Tie, Player1: Nate, Player1 Weapon: paper, Player2: Karey, Player2 Weapon: paper
+Out of 5 games, Player 1 has 2 wins & Player 2 has 2 wins and 1 ties 
