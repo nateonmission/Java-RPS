@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.Scanner;
 
 public class Main {
@@ -8,24 +9,51 @@ public class Main {
         scan.nextLine();
 
         Game.clearScreenHack();
-        printMainMenu();
 
-        boolean loopAgain = true;
-        while(loopAgain) {
-            String response = scan.nextLine();
+        boolean playOn = true;
+        int[] gameResults = new int[3];
+        while (playOn) {
+            printMainMenu();
 
-            if (response.toLowerCase().equals("p")) {
-                Game.playGame(scan, response);
-            } else if (response.toLowerCase().equals("c")) {
-                Game.playGame(scan, response);
-            } else if(response.toLowerCase().equals("x")) {
-                loopAgain = false;
+            boolean loopAgain = true;
+            while (loopAgain) {
+                String response = scan.nextLine();
 
-            } else {
-                System.out.println("I do not understand. Please enter a P, C, G, or X");
+                if (response.equalsIgnoreCase("p")) {
+                    gameResults = Game.playGame(scan, response);
+                    loopAgain = false;
+                } else if (response.equalsIgnoreCase("c")) {
+                    gameResults = Game.playGame(scan, response);
+                    loopAgain = false;
+                } else if (response.equalsIgnoreCase("h")){
+
+
+                    
+                } else if (response.equalsIgnoreCase("x")) {
+                    loopAgain = false;
+                    playOn = false;
+
+                } else {
+                    System.out.println("I do not understand. Please enter a P, C, G, or X");
+                }
             }
         }
+        int gamesplayed = gameResults[2];
+        int ties = gameResults[2] - (gameResults[0]+gameResults[1]);
+        System.out.println("");
+        System.out.println("");
+        System.out.println("==============================");
+        System.out.println("=         GAME STATS         =");
+        System.out.println("==============================");
+        System.out.println("");
+        System.out.println("Out of " + gamesplayed + " game,");
+        System.out.println("Player 1 has " + gameResults[0] + " wins & Player 2 has " + gameResults[1] + " wins");
+        System.out.println("and " + ties + " ties");
 
+        String stats = "Out of " + gamesplayed + " games," +
+                " Player 1 has " + gameResults[0] + " wins & Player 2 has " + gameResults[1] + " wins" +
+                " and " + ties + " ties \r\n";
+        Helpers.writeMatchStats(stats);
         System.out.println("GOODBYE");
         scan.close();
         System.exit(0);

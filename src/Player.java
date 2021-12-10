@@ -15,7 +15,7 @@ public class Player {
         this.gamesWon = 0;
     }
 
-
+    /////////////// SETTERS & GETTERS  ///////////////
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
@@ -28,14 +28,14 @@ public class Player {
         this.gamesWon = gamesWon;
     }
 
-    public void incrementGamesWon(int gamesWon) {
-        this.gamesWon = this.gamesWon++;
+    public void incrementGamesWon() {
+        this.gamesWon += 1;
     }
 
-    public void setWeapon(String weapon) {
-        this.weapon = weapon;
-    }
+    public void setWeapon(String weapon) { this.weapon = weapon; }
+
     public String getWeapon() { return weapon;}
+
     public String getPlayerName() {
         return playerName;
     }
@@ -50,6 +50,8 @@ public class Player {
 
     public int getPlayerNumber() { return playerNumber; }
 
+
+    ////////////////  AUTOMATED PLAYER  //////////////////
     public static String getAutomatedPlay(){
         String[] playOptions = {"rock","paper","scissors"};
 

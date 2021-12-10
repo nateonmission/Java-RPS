@@ -1,57 +1,61 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class Game {
     Player player1;
     Player player2;
-    int turnCounter;
     int gameCounter;
-    LocalDate timeStamp;
+    LocalDateTime timeStamp;
+    int p1Wins;
+    int p2Wins;
+    ArrayList<String> matchRecord;
 
     Game(Player player1, Player player2){
         this.player1 = player1;
         this.player2 = player2;
-        this.turnCounter = 0;
         this.gameCounter = 0;
-        this.timeStamp = null;
+        this.timeStamp = LocalDateTime.now();
+        this.p1Wins = 0;
+        this.p2Wins = 0;
+        this.matchRecord = new ArrayList<String>();
     }
 
-    public void setPlayer(int i, Player player) {
-        if(i == 0) {
-            this.player1 = player;
-        } else {
-            this.player2 = player;
-        }
-    }
-
-    private void setTurnCounterCounter(int turnCounter) {
-        this.turnCounter = turnCounter;
-    }
-    public void incrementTurnCounter() {
-        this.turnCounter += 1;
-    }
-    private void setGameCounter(int gameCounter) {
-        this.gameCounter = gameCounter;
-    }
+    ///////////////  SETTERS  //////////////////
     public void incrementGameCounter() {
         this.gameCounter += 1;
     }
 
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
-    public static void playGame(Scanner scan, String gameType){
+    public void setWins() {
+
+        this.p1Wins = player1.getGamesWon();
+        this.p2Wins = player2.getGamesWon();
+    }
+
+
+
+    public int[] getWins() {
+        int[] winsArray = {p1Wins, p2Wins, gameCounter} ;
+        return winsArray;
+    }
+
+    ///////////////  PLAYGAME  ////////////////
+    public static int[] playGame(Scanner scan, String gameType){
         boolean playOn = true;
-
         clearScreenHack();
+
         System.out.println("Player 1, What is your name?");
         String name1 = scan.nextLine();
 
         Player player1 = new Player(0, name1, false);
         Player player2;
+
         if(gameType.equals("p")) {
             System.out.println("Player 2, What is your name?");
             String name2 = scan.nextLine();
@@ -62,14 +66,14 @@ public class Game {
 
         Game game = new Game(player1, player2);
 
+
         while(playOn) {
             clearScreenHack();
             Game.promptPlayer(player1);
             Game.promptPlayer(player2);
+
             int result = Game.findWinner(player1, player2);
             String winner;
-            System.out.println(result);
-
             if(result == 1){
                 winner = "Winner: Player1";
             } else if( result == -1) {
@@ -80,15 +84,16 @@ public class Game {
 
             DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime timeStamp = LocalDateTime.now();
+            game.setTimeStamp(timeStamp);
 
             String resultString = dateTimeFormat.format(timeStamp) + ", " +
                     winner + ", " +
                     "Player1: " + player1.getPlayerName() + ", " +
                     "Player1 Weapon: " + player1.getWeapon() + ", " +
                     "Player2: " + player2.getPlayerName() + ", " +
-                    "Player2 Weapon: " + player2.getWeapon();
+                    "Player2 Weapon: " + player2.getWeapon() + "\r\n";
             System.out.println( resultString );
-            game.incrementGameCounter();
+            game.matchRecord.add(resultString);
 
             System.out.println(" ");
 
@@ -96,23 +101,28 @@ public class Game {
             while (loopAgain) {
                 System.out.println("Would you like to play again? (y/n)");
                 String again = scan.nextLine();
-                if (again.toLowerCase().equals("y") || again.toLowerCase().equals("yes")) {
-                    playOn = true;
+                if (again.equalsIgnoreCase("y") || again.equalsIgnoreCase("yes")) {
                     loopAgain = false;
-                } else if (again.toLowerCase().equals("n") || again.toLowerCase().equals("no")) {
+                } else if (again.equalsIgnoreCase("n") || again.equalsIgnoreCase("no")) {
                     playOn = false;
                     loopAgain = false;
                 } else {
                     System.out.println("I don't understand. Please enter a Y or an N.");
                 }
-            }
 
-        }
+            }// loopAgain
+            System.out.println(game.gameCounter);
+            game.incrementGameCounter();
 
+
+        }// playOn
+        clearScreenHack();
+        game.setWins();
+        Helpers.writeMatchHistory(game.matchRecord);
+        return game.getWins();
     }
 
-
-
+    /////////////////  PROMPT PLAYER  //////////////////
     public static void promptPlayer(Player player)  {
         Scanner scan = new Scanner(System.in);
 
@@ -125,7 +135,6 @@ public class Game {
             System.out.println("\\_|   |_|\\__,_|\\__, |\\___|_|     \\___/|_| |_|\\___|");
             System.out.println("                __/ |                             ");
             System.out.println("               |___/                              ");
-            System.out.println("");
         } else if(player.playerNumber == 1 && !player.isComputer){
             System.out.println("______ _                         _____             ");
             System.out.println("| ___ \\ |                      |_   _|            ");
@@ -152,15 +161,15 @@ public class Game {
             while (loopAgain) {
                 System.out.println(player.playerName + ", Select your weapon of choice:");
                 System.out.println("            [R]ock, [P]aper, [S]cissors");
-                String respnse = scan.nextLine();
+                String response = scan.nextLine();
                 if (
-                        respnse.toLowerCase().equals("r") ||
-                        respnse.toLowerCase().equals("p") ||
-                        respnse.toLowerCase().equals("s")
+                        response.equalsIgnoreCase("r") ||
+                        response.equalsIgnoreCase("p") ||
+                        response.equalsIgnoreCase("s")
                 ) {
-                    if (respnse.toLowerCase().equals("r")) {
+                    if (response.equalsIgnoreCase("r")) {
                         player.setWeapon("rock");
-                    } else if (respnse.toLowerCase().equals("p")) {
+                    } else if (response.equalsIgnoreCase("p")) {
                         player.setWeapon("paper");
                     } else {
                         player.setWeapon("scissors");
@@ -176,13 +185,10 @@ public class Game {
             player.setWeapon( Player.getAutomatedPlay());
 
         }
-
-
-
     }
 
+    /////////////////// FIND WINNER  ////////////////////
     public static int findWinner(Player player1, Player player2){
-        int result = 0;
         String p1Weapon = player1.getWeapon();
         String p2Weapon = player2.getWeapon();
 
@@ -200,24 +206,30 @@ public class Game {
         if(Arrays.equals(play, case1)){
             //paper
             if(p1Weapon.equals("paper")){
+                player1.incrementGamesWon();
                 return 1;
 
             } else {
+                player2.incrementGamesWon();
                 return -1;
 
             }
         } else if (Arrays.equals(play, case2)) {
             //rock
             if(p1Weapon.equals("rock")){
+                player1.incrementGamesWon();
                 return 1;
             } else {
+                player2.incrementGamesWon();
                 return -1;
             }
-        }else if (play.equals(case3)) {
+        }else if (Arrays.equals(play, case3)) {
             //scissors
             if(p1Weapon.equals("scissors")){
+                player1.incrementGamesWon();
                 return 1;
             } else {
+                player2.incrementGamesWon();
                 return -1;
             }
         }
@@ -225,36 +237,11 @@ public class Game {
         return 0;
     }
 
-
-
-
-
-
+    ///////////////  CLEAR SCREEN  ///////////////
     public static void clearScreenHack(){
         for(int i = 0; i < 20; i++) {
             System.out.println(" ");
         }
     }
-
-    public static void clearScreen(){
-        try{
-            String operatingSystem = System.getProperty("os.name");
-
-            if(operatingSystem.contains("Windows")){
-                ProcessBuilder clearProcess = new ProcessBuilder("cmd", "/c", "cls");
-                Process startProcess = clearProcess.inheritIO().start();
-                startProcess.waitFor();
-            } else {
-                ProcessBuilder clearProcess = new ProcessBuilder("clear");
-                Process startProcess = clearProcess.inheritIO().start();
-
-                startProcess.waitFor();
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
-
-
 
 }
