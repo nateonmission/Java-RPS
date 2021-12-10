@@ -1,4 +1,3 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -8,16 +7,17 @@ public class Main {
         printOpening();
         scan.nextLine();
 
-        clearScreenHack();
+        Game.clearScreenHack();
         printMainMenu();
 
         boolean loopAgain = true;
         while(loopAgain) {
             String response = scan.nextLine();
 
-
             if (response.toLowerCase().equals("p")) {
-                humanGame(scan);
+                Game.playGame(scan, response);
+            } else if (response.toLowerCase().equals("c")) {
+                Game.playGame(scan, response);
             } else if(response.toLowerCase().equals("x")) {
                 loopAgain = false;
 
@@ -28,32 +28,9 @@ public class Main {
 
         System.out.println("GOODBYE");
         scan.close();
+        System.exit(0);
     }
 
-    public static void clearScreenHack(){
-        for(int i = 0; i < 20; i++) {
-            System.out.println(" ");
-        }
-    }
-
-    public static void clearScreen(){
-        try{
-            String operatingSystem = System.getProperty("os.name");
-
-            if(operatingSystem.contains("Windows")){
-                ProcessBuilder clearProcess = new ProcessBuilder("cmd", "/c", "cls");
-                Process startProcess = clearProcess.inheritIO().start();
-                startProcess.waitFor();
-            } else {
-                ProcessBuilder clearProcess = new ProcessBuilder("clear");
-                Process startProcess = clearProcess.inheritIO().start();
-
-                startProcess.waitFor();
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
 
     public static void printOpening() {
         System.out.println("______           _       ______                       _____      _                        ");
@@ -78,34 +55,8 @@ public class Main {
         System.out.println("Enter [P, C, G, or X], then press ENTER");
     }
 
-    public static void humanGame(Scanner scan){
-        boolean playOn = true;
 
-        clearScreenHack();
-        System.out.println("Player 1, What is your name?");
-        String name1 = scan.nextLine();
 
-        System.out.println("Player 2, What is your name?");
-        String name2 = scan.nextLine();
-
-        Player player1 = new Player(0, name1, false);
-        Player player2 = new Player(1, name2, false);
-
-        Game game = new Game(player1, player2);
-
-        while(playOn) {
-            clearScreenHack();
-            Game.promptPlayer(player1);
-            Game.promptPlayer(player2);
-            int result = Game.findWinner(player1, player2);
-            System.out.println(result);
-
-            game.incrementGameCounter();
-            playOn =false;
-
-        }
-
-    }
 
 
 }

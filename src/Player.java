@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Player {
     int playerNumber;
     String playerName;
@@ -48,6 +50,11 @@ public class Player {
 
     public int getPlayerNumber() { return playerNumber; }
 
+    public static String getAutomatedPlay(){
+        String[] playOptions = {"rock","paper","scissors"};
 
+        int randomNumber = new Random().nextInt(playOptions.length);
+        return playOptions[randomNumber];
+    }
 
 }
